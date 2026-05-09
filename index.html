@@ -4,10 +4,11 @@
 <head>
 
     <meta charset="UTF-8">
-
     <title>SAP CPI Dashboard</title>
 
     <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
@@ -17,32 +18,49 @@
 
     <h1>SAP CPI IFlow Dashboard</h1>
 
+    <div class="top-bar">
+
+        <button onclick="fetchLogs()">
+            Refresh Logs
+        </button>
+
+        <button onclick="downloadDailyLogs()">
+            Download Today's Logs
+        </button>
+
+    </div>
+
     <div class="stats">
 
         <div class="card">
             <h2 id="totalCount">0</h2>
-            <p>Total Triggers</p>
+            <p>Total Requests</p>
+        </div>
+
+        <div class="card success-card">
+            <h2 id="successCount">0</h2>
+            <p>Success</p>
         </div>
 
         <div class="card error-card">
             <h2 id="errorCount">0</h2>
-            <p>Error Count</p>
+            <p>Error</p>
         </div>
 
     </div>
-    
-    <button onclick="fetchLogs()">
-        Refresh Logs
-    </button>
+
+    <div class="chart-container">
+        <canvas id="statusChart"></canvas>
+    </div>
 
     <table>
 
         <thead>
         <tr>
             <th>ID</th>
-            <th>Timestamp</th>
+            <th>IST Timestamp</th>
+            <th>Status</th>
             <th>Payload</th>
-            <th>Download</th>
         </tr>
         </thead>
 
@@ -53,7 +71,6 @@
 </div>
 
 <script src="script.js"></script>
-
 
 </body>
 </html>

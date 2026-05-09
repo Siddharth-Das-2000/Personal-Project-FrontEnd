@@ -1,6 +1,10 @@
 const API_BASE_URL =
     "https://personal-projects-ppe8.onrender.com/api";
 
+let chart;
+
+let currentLogs = [];
+
 async function fetchLogs() {
 
     try {
@@ -10,23 +14,60 @@ async function fetchLogs() {
 
         const data = await response.json();
 
+        currentLogs = data.logs;
+
         updateCounters(data);
+
+        renderChart(data);
 
         renderTable(data.logs);
 
     } catch (error) {
 
-        console.error("Error fetching logs:", error);
+        console.error(error);
     }
 }
 
 function updateCounters(data) {
 
+    const successCount =
+        data.totalCount - data.errorCount;
+
     document.getElementById("totalCount")
         .innerText = data.totalCount;
 
+    document.getElementById("successCount")
+        .innerText = successCount;
+
     document.getElementById("errorCount")
         .innerText = data.errorCount;
+}
+
+function renderChart(data) {
+
+    const successCount =
+        data.totalCount - data.errorCount;
+
+    const ctx =
+        document.getElementById("statusChart");
+
+    if (chart) {
+        chart.destroy();
+    }
+
+    chart = new Chart(ctx, {
+
+        type: 'pie',
+
+        data: {
+
+            labels: ['Success', 'Error'],
+
+            datasets: [{
+                data: [successCount, data.errorCount]
+            }]
+        }
+    });
 }
 
 function renderTable(logs) {
@@ -45,20 +86,41 @@ function renderTable(logs) {
             row.classList.add("error-row");
         }
 
+        const status =
+            log.error ? "ERROR" : "SUCCESS";
+
+        const shortPayload =
+            log.payload.length > 150
+                ? log.payload.substring(0, 150) + "..."
+                : log.payload;
+
         row.innerHTML = `
 
             <td>${log.id}</td>
 
-            <td>${log.timestamp}</td>
+            <td>${formatISTDate(log.timestamp)}</td>
+
+            <td>${status}</td>
 
             <td>
-                <pre>${escapeHtml(log.payload)}</pre>
-            </td>
 
-            <td>
-                <button onclick='downloadXml(${JSON.stringify(log.payload)})'>
-                    Download
+                <div class="payload-preview">
+                    ${escapeHtml(shortPayload)}
+                </div>
+
+                <button class="expand-btn"
+                    onclick="toggleLog('log-${log.id}')">
+
+                    Expand
                 </button>
+
+                <div class="full-log"
+                    id="log-${log.id}">
+
+                    <pre>${escapeHtml(log.payload)}</pre>
+
+                </div>
+
             </td>
         `;
 
@@ -66,15 +128,51 @@ function renderTable(logs) {
     });
 }
 
-function downloadXml(payload) {
+function toggleLog(id) {
+
+    const element =
+        document.getElementById(id);
+
+    if (element.style.display === "block") {
+
+        element.style.display = "none";
+
+    } else {
+
+        element.style.display = "block";
+    }
+}
+
+function formatISTDate(timestamp) {
+
+    return new Date(timestamp)
+        .toLocaleString("en-IN", {
+            timeZone: "Asia/Kolkata"
+        });
+}
+
+function downloadDailyLogs() {
+
+    let xmlContent = "";
+
+    currentLogs.forEach(log => {
+
+        xmlContent += `
+
+<!-- ${log.timestamp} -->
+
+${log.payload}
+
+`;
+    });
 
     const blob =
-        new Blob([payload], {
+        new Blob([xmlContent], {
             type: "application/xml"
         });
 
     const url =
-        window.URL.createObjectURL(blob);
+        URL.createObjectURL(blob);
 
     const a =
         document.createElement("a");
@@ -82,15 +180,11 @@ function downloadXml(payload) {
     a.href = url;
 
     a.download =
-        `payload-${Date.now()}.xml`;
-
-    document.body.appendChild(a);
+        `sap-cpi-logs-${new Date().toISOString().split('T')[0]}.xml`;
 
     a.click();
 
-    document.body.removeChild(a);
-
-    window.URL.revokeObjectURL(url);
+    URL.revokeObjectURL(url);
 }
 
 function escapeHtml(text) {
