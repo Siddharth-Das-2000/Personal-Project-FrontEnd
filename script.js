@@ -104,5 +104,3 @@ function escapeHtml(text) {
 }
 
 fetchLogs();
-
-setInterval(fetchLogs, 3000);
