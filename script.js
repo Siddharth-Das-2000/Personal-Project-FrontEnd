@@ -1,5 +1,5 @@
 const API_BASE_URL =
-    "https://personal-projects-ppe8.onrender.com/api";
+    "https://personal-projects-s1g5.onrender.com/api";
 
 let chart;
 
