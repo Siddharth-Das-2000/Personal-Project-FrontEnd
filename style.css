@@ -2,8 +2,9 @@ body {
 
     margin: 0;
     padding: 0;
-    background: #f4f6f9;
     font-family: Arial, sans-serif;
+    background: #eef2f7;
+    color: #1e293b;
 }
 
 .container {
@@ -15,30 +16,40 @@ body {
 
 h1 {
 
-    text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    color: #0f172a;
+}
+
+.sticky-top {
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #eef2f7;
+    padding-bottom: 15px;
 }
 
 .top-bar {
 
     display: flex;
-    gap: 15px;
+    gap: 12px;
     margin-bottom: 20px;
 }
 
 button {
 
-    background: #007bff;
+    background: #2563eb;
     color: white;
     border: none;
-    padding: 12px 18px;
+    padding: 10px 16px;
     border-radius: 6px;
     cursor: pointer;
+    transition: 0.2s;
 }
 
 button:hover {
 
-    background: #0056b3;
+    background: #1d4ed8;
 }
 
 .stats {
@@ -52,78 +63,133 @@ button:hover {
 
     flex: 1;
     background: white;
+    border-radius: 14px;
     padding: 20px;
-    border-radius: 10px;
     text-align: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    border-left: 6px solid #2563eb;
 }
 
 .success-card {
 
-    background: #dfffe0;
+    border-left-color: #16a34a;
 }
 
 .error-card {
 
-    background: #ffd7d7;
+    border-left-color: #dc2626;
+}
+
+.card h2 {
+
+    margin: 0;
+    font-size: 32px;
+}
+
+.card p {
+
+    margin-top: 10px;
+    color: #64748b;
 }
 
 .chart-container {
 
-    width: 350px;
+    width: 280px;
     margin: auto;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
+    background: white;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.table-container {
+
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
 }
 
 table {
 
     width: 100%;
     border-collapse: collapse;
-    background: white;
+}
+
+thead {
+
+    background: #0f172a;
+    color: white;
 }
 
 th {
 
-    background: #333;
-    color: white;
-    padding: 15px;
+    padding: 16px;
+    text-align: left;
+    border-right: 1px solid #334155;
 }
 
 td {
 
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
+    padding: 14px;
+    border-bottom: 1px solid #e2e8f0;
+    border-right: 1px solid #e2e8f0;
     vertical-align: top;
+}
+
+tr:hover {
+
+    background: #f8fafc;
 }
 
 .error-row {
 
-    background: #ffe0e0;
+    background: #fef2f2;
 }
 
 .payload-preview {
 
-    max-width: 500px;
+    max-width: 650px;
     white-space: pre-wrap;
-    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .full-log {
 
     display: none;
-    margin-top: 10px;
-    background: #f5f5f5;
-    padding: 10px;
-    border-radius: 5px;
+    margin-top: 12px;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 12px;
 }
 
-.expand-btn {
+.expand-icon {
 
-    margin-top: 10px;
-    background: #28a745;
+    cursor: pointer;
+    font-size: 18px;
+    color: #2563eb;
+    margin-left: 10px;
 }
 
-.expand-btn:hover {
+.pagination {
 
-    background: #1f7a32;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.page-btn {
+
+    background: white;
+    border: 1px solid #cbd5e1;
+    color: #0f172a;
+    padding: 8px 14px;
+}
+
+.page-btn:hover {
+
+    background: #dbeafe;
 }

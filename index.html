@@ -1,76 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-    <title>SAP CPI Dashboard</title>
-
-    <link rel="stylesheet" href="style.css">
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-</head>
-
 <body>
 
 <div class="container">
 
-    <h1>SAP CPI IFlow Dashboard</h1>
+    <div class="sticky-top">
 
-    <div class="top-bar">
+        <h1>SAP CPI IFlow Dashboard</h1>
 
-        <button onclick="fetchLogs()">
-            Refresh Logs
-        </button>
+        <div class="top-bar">
 
-        <button onclick="downloadDailyLogs()">
-            Download Today's Logs
-        </button>
+            <button onclick="fetchLogs()">
+                Refresh Logs
+            </button>
+
+            <button onclick="downloadDailyLogs()">
+                Download Today's Logs
+            </button>
+
+        </div>
+
+        <div class="stats">
+
+            <div class="card">
+                <h2 id="totalCount">0</h2>
+                <p>Total Requests</p>
+            </div>
+
+            <div class="card success-card">
+                <h2 id="successCount">0</h2>
+                <p>Success</p>
+            </div>
+
+            <div class="card error-card">
+                <h2 id="errorCount">0</h2>
+                <p>Error</p>
+            </div>
+
+        </div>
+
+        <div class="chart-container">
+            <canvas id="statusChart"></canvas>
+        </div>
 
     </div>
 
-    <div class="stats">
+    <div class="table-container">
 
-        <div class="card">
-            <h2 id="totalCount">0</h2>
-            <p>Total Requests</p>
-        </div>
+        <table>
 
-        <div class="card success-card">
-            <h2 id="successCount">0</h2>
-            <p>Success</p>
-        </div>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>IST Timestamp</th>
+                <th>Status</th>
+                <th>Payload</th>
+            </tr>
+            </thead>
 
-        <div class="card error-card">
-            <h2 id="errorCount">0</h2>
-            <p>Error</p>
-        </div>
+            <tbody id="tableBody"></tbody>
+
+        </table>
 
     </div>
 
-    <div class="chart-container">
-        <canvas id="statusChart"></canvas>
-    </div>
-
-    <table>
-
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>IST Timestamp</th>
-            <th>Status</th>
-            <th>Payload</th>
-        </tr>
-        </thead>
-
-        <tbody id="tableBody"></tbody>
-
-    </table>
+    <div class="pagination" id="pagination"></div>
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="script.js"></script>
 
 </body>
-</html>

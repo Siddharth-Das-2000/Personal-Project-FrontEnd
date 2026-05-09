@@ -5,6 +5,10 @@ let chart;
 
 let currentLogs = [];
 
+let currentPage = 1;
+
+const logsPerPage = 10;
+
 async function fetchLogs() {
 
     try {
@@ -12,15 +16,18 @@ async function fetchLogs() {
         const response =
             await fetch(`${API_BASE_URL}/logs`);
 
-        const data = await response.json();
+        const data =
+            await response.json();
 
-        currentLogs = data.logs;
+        currentLogs = data.logs.reverse();
 
         updateCounters(data);
 
         renderChart(data);
 
-        renderTable(data.logs);
+        renderTable();
+
+        renderPagination();
 
     } catch (error) {
 
@@ -70,14 +77,23 @@ function renderChart(data) {
     });
 }
 
-function renderTable(logs) {
+function renderTable() {
 
     const tableBody =
         document.getElementById("tableBody");
 
     tableBody.innerHTML = "";
 
-    logs.forEach(log => {
+    const start =
+        (currentPage - 1) * logsPerPage;
+
+    const end =
+        start + logsPerPage;
+
+    const paginatedLogs =
+        currentLogs.slice(start, end);
+
+    paginatedLogs.forEach(log => {
 
         const row =
             document.createElement("tr");
@@ -86,12 +102,9 @@ function renderTable(logs) {
             row.classList.add("error-row");
         }
 
-        const status =
-            log.error ? "ERROR" : "SUCCESS";
-
         const shortPayload =
-            log.payload.length > 150
-                ? log.payload.substring(0, 150) + "..."
+            log.payload.length > 120
+                ? log.payload.substring(0, 120) + "..."
                 : log.payload;
 
         row.innerHTML = `
@@ -100,19 +113,23 @@ function renderTable(logs) {
 
             <td>${formatISTDate(log.timestamp)}</td>
 
-            <td>${status}</td>
+            <td>
+                ${log.error ? 'ERROR' : 'SUCCESS'}
+            </td>
 
             <td>
 
                 <div class="payload-preview">
+
                     ${escapeHtml(shortPayload)}
+
+                    <span class="expand-icon"
+                        onclick="toggleLog('log-${log.id}')">
+
+                        ▼
+                    </span>
+
                 </div>
-
-                <button class="expand-btn"
-                    onclick="toggleLog('log-${log.id}')">
-
-                    Expand
-                </button>
 
                 <div class="full-log"
                     id="log-${log.id}">
@@ -126,6 +143,36 @@ function renderTable(logs) {
 
         tableBody.appendChild(row);
     });
+}
+
+function renderPagination() {
+
+    const pagination =
+        document.getElementById("pagination");
+
+    pagination.innerHTML = "";
+
+    const totalPages =
+        Math.ceil(currentLogs.length / logsPerPage);
+
+    for (let i = 1; i <= totalPages; i++) {
+
+        const button =
+            document.createElement("button");
+
+        button.innerText = i;
+
+        button.classList.add("page-btn");
+
+        button.onclick = () => {
+
+            currentPage = i;
+
+            renderTable();
+        };
+
+        pagination.appendChild(button);
+    }
 }
 
 function toggleLog(id) {
