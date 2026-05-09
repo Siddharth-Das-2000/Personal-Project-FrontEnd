@@ -59,6 +59,7 @@ function renderChart(data) {
         document.getElementById("statusChart");
 
     if (chart) {
+
         chart.destroy();
     }
 
@@ -73,6 +74,21 @@ function renderChart(data) {
             datasets: [{
                 data: [successCount, data.errorCount]
             }]
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            plugins: {
+
+                legend: {
+
+                    position: 'bottom'
+                }
+            }
         }
     });
 }
@@ -99,6 +115,7 @@ function renderTable() {
             document.createElement("tr");
 
         if (log.error) {
+
             row.classList.add("error-row");
         }
 
@@ -194,6 +211,7 @@ function formatISTDate(timestamp) {
 
     return new Date(timestamp)
         .toLocaleString("en-IN", {
+
             timeZone: "Asia/Kolkata"
         });
 }
@@ -215,6 +233,7 @@ ${log.payload}
 
     const blob =
         new Blob([xmlContent], {
+
             type: "application/xml"
         });
 
