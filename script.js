@@ -1,5 +1,5 @@
 const API_BASE_URL =
-    "https://personal-projects-ppe8.onrender.com";
+    "https://personal-projects-ppe8.onrender.com/api";
 
 async function fetchLogs() {
 
