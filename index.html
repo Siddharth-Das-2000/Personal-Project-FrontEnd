@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>SAP CPI Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>SAP CPI IFlow Dashboard</h1>
+
+    <div class="stats">
+
+        <div class="card">
+            <h2 id="totalCount">0</h2>
+            <p>Total Triggers</p>
+        </div>
+
+        <div class="card error-card">
+            <h2 id="errorCount">0</h2>
+            <p>Error Count</p>
+        </div>
+
+    </div>
+
+    <table>
+
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Timestamp</th>
+            <th>Payload</th>
+            <th>Download</th>
+        </tr>
+        </thead>
+
+        <tbody id="tableBody"></tbody>
+
+    </table>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
