@@ -161,7 +161,6 @@ function renderTable() {
         tableBody.appendChild(row);
     });
 }
-
 function renderPagination() {
 
     const pagination =
